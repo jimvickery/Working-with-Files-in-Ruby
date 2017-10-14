@@ -1,23 +1,22 @@
-require 'yaml'
-
-class Cars
-
-    def read_makes
-        puts File.readlines("car_makes.txt")
-    end
-
-    def read_models
-        puts File.readlines("car_models.txt")
-    end
-
-    
-
+def create_car_hash
+	car_models = File.readlines("car_models.txt")
+	car_makes = File.readlines("car_makes.txt")
+	car_hash = Hash.new
+	makes_array = car_makes
+	models_array = car_models
+	makes_array.each do |make|
+		make = make.gsub("\n", "")
+		car_hash[make] = []
+		models_array.each do |model|
+			model = model.gsub("\n", "")
+			if make[0] == model[0]
+				model[0..1] = ""
+				car_hash[make].push(model)
+			end
+		end
+	end
+	puts car_hash
 end
 
-# c1 = Cars.new
-# c1.read_makes
-# c1.read_models
-
-File.open("car_models.txt", "r").each do |f|
-    puts YAML::load(f)
-end
+# call method to crate the hash
+create_car_hash
